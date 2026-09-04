@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  web:
+    image: html
+    container_name: frontend
+    ports:
+      - "80:80"
+    volumes:
+      - db_data:/data
+
+volumes:
+  db_data:

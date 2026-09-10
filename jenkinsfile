@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_TAG = "v${BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh "docker build -t html:$IMAGE_TAG ."
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Testing the Docker container...'
+                sh """
+                    docker run -d --name test_container_${BUILD_NUMBER} -p 8080:80 html:$IMAGE_TAG
+                    sleep 3
+                    curl -s http://localhost:8080 | grep -q "html" || (docker stop test_container_${BUILD_NUMBER} && docker rm test_container_${BUILD_NUMBER} && exit 1)
+                    docker stop test_container_${BUILD_NUMBER}
+                    docker rm test_container_${BUILD_NUMBER}
+                """
+            }
+        }
+    }
+}

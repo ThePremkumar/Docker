@@ -14,7 +14,7 @@ pipeline {
         }
 
         stage('Build') {
-            steps {'
+            steps {
 
                 echo "Building Docker image: html:${IMAGE_TAG}"
 

@@ -14,7 +14,7 @@ pipeline {
         }
 
         stage('Build') {
-            steps {...'
+            steps {'
 
                 echo "Building Docker image: html:${IMAGE_TAG}"
 
@@ -26,7 +26,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Testing the Docker container
+                echo 'Testing the Docker container...'
                 sh """
                     docker run -d \
                         --name test_container_${BUILD_NUMBER} \

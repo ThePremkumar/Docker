@@ -14,7 +14,8 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
+            steps {...'
+
                 echo "Building Docker image: html:${IMAGE_TAG}"
 
                 sh """
@@ -25,17 +26,16 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Testing the Docker container...'
-
+                echo 'Testing the Docker container
                 sh """
                     docker run -d \
                         --name test_container_${BUILD_NUMBER} \
-                        -p 8080:80 \
+                        -p 8081:80 \
                         html:${IMAGE_TAG}
 
                     sleep 3
 
-                    curl -f http://localhost:8080
+                    curl -f http://localhost:8081
 
                     docker stop test_container_${BUILD_NUMBER}
                     docker rm test_container_${BUILD_NUMBER}
